@@ -33,9 +33,12 @@ if (isset($_POST['btnlogin'])) {
         if ($row = mysql_fetch_assoc($result)) {
             //session adminlogin diisi sama username yg saat ini
             $_SESSION['login'] = true;
+            $_SESSION['iduser'] = $row['id'];
             $_SESSION['namalengkap'] = $row['namalengkapdgngelar'];
+            $_SESSION['nama'] = $row['namapanggilan'];
             $_SESSION['jabatan'] = $row['jabatan'];
             $lembaga = $row['idlembaga'];
+            $_SESSION['idsekolah'] = $lembaga;
             $sql2 = "SELECT nama from sekolah where id = '" . $lembaga . "'";
             $result2 = mysql_query($sql2);
             $row2 = mysql_fetch_assoc($result2);

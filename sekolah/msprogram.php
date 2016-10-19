@@ -1,12 +1,16 @@
 <?php
     require_once("../dbdansession.php");
-    //require_once("../controller/function.php");
+
     $pesan = "";
     if(isset($_POST['submit'])) {
         $kode = $_POST['kode'];
         $nama = $_POST['nama'];
         $desk = $_POST['desk'];
-        $idinduk = $_POST['idinduk'];
+        if($_POST['idinduk2'] == 0) {
+            $idinduk = $_POST['idinduk'];
+        } else {
+            $idinduk = $_POST['idinduk2'];
+        }
         $sql = "INSERT INTO programsekolah (`id`, `nokode`, `nama`, `deskripsi`, `idprograminduk`, `created_at`) VALUES (NULL, '$kode', '$nama', '$desk', '$idinduk', '". date("Y-m-d h:i:s") . "')";
         if(mysql_query($sql)) {
             $pesan = "Berhasil Menambahkan Data";
@@ -105,7 +109,7 @@
                             <td><label>Program Sub-Induk </label></td>
                             <td style="width: 1px;">:</td>
                             <td align="left">
-                                <select name="idinduk">
+                                <select name="idinduk2">
                                     <option value="0">Induk</option>
                                     <?php
                                         //ambil semua data buat diload di tabel dibawah form
@@ -151,7 +155,7 @@
                 </thead>
                 <?php
                     //ambil semua data buat diload di tabel dibawah form
-                    $ambilsemua = "SELECT * from programsekolah order by idprograminduk asc";
+                    $ambilsemua = "SELECT * from programsekolah order by nokode asc";
                     $resulta = mysql_query($ambilsemua);
                     echo mysql_error();
                     while ($rowa = mysql_fetch_assoc($resulta)) {
@@ -173,13 +177,7 @@
                 <?php } ?>
                 </table>
             </div>
-            <footer class="row" style="margin-left: 20px; margin-right: 15px;">
-                
-                <div class="sixteen columns omega">
-                    <center>&copy; 2016 Workshop Rekayasa Perangkat Lunak</center>
-                </div>
-                
-            </footer>
+            <?php require_once("footer.php");?>
         </div>
         <!--Close Container Div-->
         <!--Grab JS Files-->

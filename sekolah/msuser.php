@@ -1,13 +1,13 @@
 <?php
     require_once("../dbdansession.php");
-    
+
+    //require_once("../controller/function.php");
     $pesan = "";
     if(isset($_POST['submit'])) {
-        $kode = $_POST['kode'];
         $nama = $_POST['nama'];
-        $desk = $_POST['desk'];
+        $harga = $_POST['harga'];
         $idinduk = $_POST['idinduk'];
-        $sql = "INSERT INTO programsekolah (`id`, `nokode`, `nama`, `deskripsi`, `idprograminduk`, `created_at`) VALUES (NULL, '$kode', '$nama', '$desk', '$idinduk', '". date("Y-m-d h:i:s") . "')";
+        $sql = "INSERT INTO barang (`id`, `nama`, `hargastandar`, `created_at`) VALUES (NULL, $nama', '$harga','". date("Y-m-d h:i:s")."')";
         if(mysql_query($sql)) {
             $pesan = "Berhasil Menambahkan Data";
         } else {
@@ -18,7 +18,7 @@
     }
     $id = 0;
     //ambil id terakhir dan nntinya di +1
-    $query = "SELECT id from programsekolah order by id desc limit 1";
+    $query = "SELECT id from barang order by id desc limit 1";
     $results = mysql_query($query);
     while ($rows = mysql_fetch_assoc($results)) {
         $id = $rows['id']; 
@@ -44,7 +44,7 @@
             <div class="sixteen columns" style="position: relative; z-index: -1;">
                 <!-- <div class="h-border"> -->
                     <div class="heading" style="margin-top: 20px; margin-bottom: 20px;">
-                        <h1>Master Program</h1>
+                        <h1>Master Barang</h1>
                     </div>
                 <!-- </div> -->
             </div>
@@ -55,7 +55,7 @@
             <div class="row">
             </div>
             <div class="row" id="buatbaru" style="display: block; margin-top: -20px;">
-                <center><h1>Tambah/Ubah data Program Sekolah</h1></center>
+                <center><h1>Tambah/Ubah data Barang</h1></center>
                 <br><br>
                 <center>
                 <form class="pure-form" method="POST">
@@ -66,68 +66,21 @@
                             <td align="left"><label><?php echo $id;?></label></td>
                         </tr>
                         <tr>
-                            <td><label>Kode </label></td>
-                            <td style="width: 1px;">:</td>
-                            <td align="left"><input type="text" name="kode" size="40"></td>
-                        </tr>
-                        <tr>
                             <td><label>Nama Program </label></td>
                             <td style="width: 1px;">:</td>
                             <td align="left"><input type="text" name="nama" size="40"></td>
                         </tr>
                         <tr>
-                            <td><label>Deskripsi </label></td>
+                            <td><label>Harga Standar </label></td>
                             <td style="width: 1px;">:</td>
-                            <td align="left"><input type="text" name="desk" size="40"></td>
-                        </tr>
-                        <tr>
-                            <td><label>Program Induk </label></td>
-                            <td style="width: 1px;">:</td>
-                            <td align="left">
-                                <select name="idinduk">
-                                    <option value="0">Induk</option>
-                                    <?php
-                                        //ambil semua data buat diload di tabel dibawah form
-                                        $ambilinduk = "SELECT * from programsekolah where idprograminduk = '0'";
-                                        $resulti = mysql_query($ambilinduk);
-                                        echo mysql_error();
-                                        while ($rowi = mysql_fetch_assoc($resulti)) {
-                                            $idi = $rowi['id']; 
-                                            $kodei = $rowi['nokode'];
-                                            $namai = $rowi['nama'];
-                                    ?>
-                                    <option value="<?php echo $idi;?>"><?php echo $kodei . " - " . $namai;?></option>
-                                    <?php } ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label>Program Sub-Induk </label></td>
-                            <td style="width: 1px;">:</td>
-                            <td align="left">
-                                <select name="idinduk">
-                                    <option value="0">Induk</option>
-                                    <?php
-                                        //ambil semua data buat diload di tabel dibawah form
-                                        $ambilinduk = "SELECT * from programsekolah where idprograminduk > '0'";
-                                        $resulti = mysql_query($ambilinduk);
-                                        echo mysql_error();
-                                        while ($rowi = mysql_fetch_assoc($resulti)) {
-                                            $idi = $rowi['id']; 
-                                            $kodei = $rowi['nokode'];
-                                            $namai = $rowi['nama'];
-                                    ?>
-                                    <option value="<?php echo $idi;?>"><?php echo $kodei . " - " . $namai;?></option>
-                                    <?php } ?>
-                                </select>
-                            </td>
+                            <td align="left">Rp. <input type="number" name="harga" size="40"></td>
                         </tr>
                         <tr>
                             <td colspan="3" align="center"><input type="submit" class="btn-black-grey" name="submit" value="Simpan"></td>
                         </tr>
                         <?php if($pesan != "") { ?>
                         <tr>
-                            <td colspan="3" align="center"><p style="color: green;"><b><?php echo $pesan;?></b></p></td>
+                            <td colspan="3" align="center"><?php echo $pesan;?></td>
                         </tr>
                         <?php } ?>
                     </table>
@@ -137,49 +90,37 @@
             </div>
 
             <div class="row" style="margin-top: -30px;" align="center">
-                <h1>Daftar Program Sekolah</h1><br>
+                <h1>Daftar Barang</h1><br>
                 <table class="pure-table pure-table-bordered">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Kode</th>
-                    <th>Nama Program</th>
-                    <th>Deskripsi</th>
-                    <th>ID Program Induk</th>
-                    <th>Tanggal Pembuatan</th>
+                    <th>Nama Barang</th>
+                    <th>Harga Standar</th>
+                    <th>Tanggal Pembuatan Data</th>
                 </tr>
                 </thead>
                 <?php
                     //ambil semua data buat diload di tabel dibawah form
-                    $ambilsemua = "SELECT * from programsekolah order by idprograminduk asc";
+                    $ambilsemua = "SELECT * from barang order by id asc";
                     $resulta = mysql_query($ambilsemua);
                     echo mysql_error();
                     while ($rowa = mysql_fetch_assoc($resulta)) {
                         $ids = $rowa['id']; 
-                        $kodes = $rowa['nokode'];
                         $namas = $rowa['nama'];
-                        $desks = $rowa['deskripsi'];
-                        $idinduks = $rowa['idprograminduk'];
+                        $harga = $rowa['hargastandar'];
                         $tgl =  $rowa['created_at'];
                 ?>
                 <tr>
                     <td><?php echo $ids;?></td>
-                    <td><?php echo $kodes;?></td>
                     <td><?php echo $namas;?></td>
-                    <td><?php echo $desks;?></td>
-                    <td><?php echo $idinduks;?></td>
+                    <td><?php echo $harga;?></td>
                     <td><?php echo $tgl;?></td>
                 </tr>
                 <?php } ?>
                 </table>
             </div>
-            <footer class="row" style="margin-left: 20px; margin-right: 15px;">
-                
-                <div class="sixteen columns omega">
-                    <center>&copy; 2016 Workshop Rekayasa Perangkat Lunak</center>
-                </div>
-                
-            </footer>
+            <?php require_once("footer.php");?>
         </div>
         <!--Close Container Div-->
         <!--Grab JS Files-->

@@ -1,7 +1,7 @@
 <nav class="main-nav sixteen columns" style="margin-top: 20px;">
     <ul class="fifteen columns alpha">
         <li><a href="index.php">Beranda</a></li>
-        <li><a href="dapodik.php">Dapodik</a></li>
+        <li><a href="datasekolah.php">Data Sekolah</a></li>
         <li class="dropdown">
             <a href="#" class="dropbtn">Rencana</a>
             <div class="dropdown-content">
@@ -20,29 +20,33 @@
                 <!-- <a href="beritaacarapemeriksaankas.php">Berita Acara Penutupan Kas</a> -->
             </div>
         </li>
-        <!-- <li class="dropdown">
-            <a href="#" class="dropbtn">Inventaris</a>
-            <div class="dropdown-content">
-                <a href="bkinventaris.php">Buku Pencatatan Inventaris</a>
-                <a href="rekapinventaris.php">Rekap Pembelian Inventaris</a>
-            </div>
-        </li> -->
         <li class="dropdown">
-            <a href="#" class="dropbtn">Laporan Realisasi</a>
+            <a href="#" class="dropbtn">Realisasi</a>
             <div class="dropdown-content">
-                <a href="lapdanabos.php">Laporan Penggunaan Dana BOS</a>
-                <a href="realdanatiap.php">Realisasi Penggunaan Dana Tiap Jenis Anggaran</a>
-                <a href="ptggjawab.php">Pernyataan Tanggung Jawab</a>
-                <a href="rekaprealisasi.php">Rekap Realisasi Penggunaan</a>
+                <!-- Input Realisasi Penggunaan Dana Tiap Jenis Anggaran -->
+                <a href="realpenerimaandanatiap.php">Input Realisasi Penerimaan</a>
+                <a href="realpengeluarandanatiap.php">Input Realisasi Pengeluaran</a>
+                
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropbtn">Laporan</a>
+            <div class="dropdown-content">
+                <a href="lapdanabos.php">Laporan Keuangan per Triwulan</a>
+                <a href="laprencanarealisasi.php">Laporan Rencana-Realisasi</a>
             </div>
         </li>
         <li class="dropdown">
             <a href="#" class="dropbtn">Master Data</a>
             <div class="dropdown-content">
                 <a href="msprogram.php">Program Sekolah</a>
+            <?php 
+                if($_SESSION['nama'] == "ika") {
+            ?>
                 <a href="msbarang.php">Barang</a>
                 <a href="msuser.php">User</a>
             </div>
         </li>
+        <?php } ?>
     </ul>
 </nav>

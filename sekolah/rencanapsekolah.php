@@ -93,13 +93,7 @@
             <div class="row" id="lihat" style="display: none; margin-top: -20px;">
                 <h1>Lihat Buku Kas Umum Bulan Sebelumnya</h1>
             </div>
-            <footer class="row" style="margin-left: 20px; margin-right: 15px;">
-                
-                <div class="sixteen columns omega">
-                    <center>&copy; 2016 Workshop Rekayasa Perangkat Lunak</center>
-                </div>
-                
-            </footer>
+            <?php require_once("footer.php");?>
         </div>
         <!--Close Container Div-->
         <!--Grab JS Files-->
